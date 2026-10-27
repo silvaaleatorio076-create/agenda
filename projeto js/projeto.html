@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Pro | Gestão de Atividades</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- LOGIN E CADASTRO -->
+  <section id="telaLogin" class="login-container">
+    <div class="login-card">
+      <div class="logo">AP</div>
+      <h1>Agenda Pro</h1>
+      <p class="subtitulo">Organize suas atividades com inteligência.</p>
+
+      <div class="abas-login">
+        <button id="abaEntrar" class="aba ativa" type="button">
+          Entrar
+        </button>
+        <button id="abaCadastro" class="aba" type="button">
+          Criar conta
+        </button>
+      </div>
+
+      <form id="formLogin">
+        <label for="emailLogin">Gmail ou e-mail</label>
+        <input id="emailLogin" type="email"
+          placeholder="seuemail@gmail.com" required>
+
+        <label for="senhaLogin">Senha</label>
+        <input id="senhaLogin" type="password"
+          placeholder="Digite sua senha" required minlength="6">
+
+        <button class="botao principal" type="submit">
+          Entrar na agenda
+        </button>
+      </form>
+
+      <form id="formCadastro" hidden>
+        <label for="nomeCadastro">Nome</label>
+        <input id="nomeCadastro" type="text"
+          placeholder="Seu nome" required>
+
+        <label for="emailCadastro">E-mail</label>
+        <input id="emailCadastro" type="email"
+          placeholder="seuemail@gmail.com" required>
+
+        <label for="senhaCadastro">Criar senha</label>
+        <input id="senhaCadastro" type="password"
+          placeholder="Mínimo de 6 caracteres"
+          required minlength="6">
+
+        <button class="botao principal" type="submit">
+          Criar minha conta
+        </button>
+      </form>
+
+      <p id="mensagemLogin" class="mensagem"></p>
+      <small>Versão demonstrativa para uso local.</small>
+    </div>
+  </section>
+
+  <!-- AGENDA -->
+  <main id="painel" hidden>
+    <header class="topo">
+      <div>
+        <div class="marca">AGENDA <span>PRO</span></div>
+        <p>Gestão pessoal e profissional</p>
+      </div>
+
+      <div class="usuario">
+        <span id="nomeUsuario">Usuário</span>
+        <button id="sair" class="botao sair" type="button">
+          Sair
+        </button>
+      </div>
+    </header>
+
+    <section class="personalizacao">
+      <div>
+        <strong>Personalizar aparência</strong>
+        <p>Escolha a cor do painel</p>
+      </div>
+
+      <div class="cores">
+        <button class="cor cor-verde" data-cor="verde"
+          aria-label="Tema verde" title="Verde"></button>
+        <button class="cor cor-vermelho" data-cor="vermelho"
+          aria-label="Tema vermelho" title="Vermelho"></button>
+        <button class="cor cor-preto" data-cor="preto"
+          aria-label="Tema preto" title="Preto"></button>
+        <button class="cor cor-azul" data-cor="azul"
+          aria-label="Tema azul" title="Azul"></button>
+      </div>
+    </section>
+
+    <section class="boas-vindas">
+      <div>
+        <span class="etiqueta">PAINEL DE CONTROLE</span>
+        <h1>Organize. Execute. Evolua.</h1>
+        <p>Planeje seu dia e acompanhe seus resultados.</p>
+      </div>
+      <div class="data-hoje">
+        <span>HOJE</span>
+        <strong id="dataHoje"></strong>
+      </div>
+    </section>
+
+    <!-- INDICADORES -->
+    <section class="indicadores">
+      <article class="indicador">
+        <span>Total de atividades</span>
+        <strong id="totalAtividades">0</strong>
+        <small>Cadastradas</small>
+      </article>
+
+      <article class="indicador">
+        <span>Concluídas</span>
+        <strong id="totalConcluidas">0</strong>
+        <small>Finalizadas</small>
+      </article>
+
+      <article class="indicador">
+        <span>Pendentes</span>
+        <strong id="totalPendentes">0</strong>
+        <small>A realizar</small>
+      </article>
+
+      <article class="indicador">
+        <span>Taxa de conclusão</span>
+        <strong id="taxaConclusao">0%</strong>
+        <small>Do total cadastrado</small>
+      </article>
+    </section>
+
+    <!-- CALENDÁRIO -->
+    <section class="bloco calendario-bloco">
+      <div class="cabecalho-bloco">
+        <div>
+          <span class="etiqueta">PLANEJAMENTO</span>
+          <h2>Meu calendário</h2>
+        </div>
+
+        <button id="hoje" class="botao secundario" type="button">
+          Ir para hoje
+        </button>
+      </div>
+
+      <div class="controles-calendario">
+        <button id="mesAnterior" class="seta"
+          type="button" aria-label="Mês anterior">‹</button>
+        <h3 id="mesAno"></h3>
+        <button id="proximoMes" class="seta"
+          type="button" aria-label="Próximo mês">›</button>
+      </div>
+
+      <div id="calendario" class="calendario"></div>
+
+      <p class="dica">
+        Selecione um dia para consultar e cadastrar atividades.
+      </p>
+    </section>
+
+    <!-- CADASTRAR ATIVIDADE -->
+    <section class="bloco">
+      <div class="cabecalho-bloco">
+        <div>
+          <span class="etiqueta">ORGANIZAÇÃO</span>
+          <h2 id="tituloFormulario">Nova atividade</h2>
+          <p id="dataSelecionadaTexto"></p>
+        </div>
+      </div>
+
+      <form id="formAtividade">
+        <input type="hidden" id="atividadeId">
+
+        <div class="grade-formulario">
+          <div class="campo">
+            <label for="tituloAtividade">Nome da atividade *</label>
+            <input id="tituloAtividade" type="text"
+              placeholder="Ex.: Estudar, reunião, trabalho" required>
+          </div>
+
+          <div class="campo">
+            <label for="horario">Horário</label>
+            <input id="horario" type="time">
+          </div>
+
+          <div class="campo campo-largo">
+            <label for="descricao">Descrição e objetivo</label>
+            <textarea id="descricao" rows="3"
+              placeholder="O que você precisa fazer? Qual é o objetivo?"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="custo">Custo previsto (R$)</label>
+            <input id="custo" type="number"
+              min="0" step="0.01" value="0">
+          </div>
+
+          <div class="campo">
+            <label for="beneficio">Benefício financeiro previsto (R$)</label>
+            <input id="beneficio" type="number"
+              min="0" step="0.01" value="0">
+          </div>
+
+          <div class="campo">
+            <label for="importancia">Prioridade</label>
+            <select id="importancia">
+              <option value="alta">Alta</option>
+              <option value="media" selected>Média</option>
+              <option value="baixa">Baixa</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="acoes-formulario">
+          <button class="botao principal" type="submit" id="salvarAtividade">
+            + Salvar atividade
+          </button>
+          <button class="botao secundario" type="button" id="cancelarEdicao" hidden>
+            Cancelar edição
+          </button>
+        </div>
+        <p id="mensagemAtividade" class="mensagem"></p>
+      </form>
+    </section>
+
+    <!-- LISTA DE ATIVIDADES -->
+    <section class="bloco">
+      <div class="cabecalho-bloco">
+        <div>
+          <span class="etiqueta">SUA ROTINA</span>
+          <h2>Atividades do dia</h2>
+        </div>
+        <span id="quantidadeDia" class="contador">0 atividades</span>
+      </div>
+
+      <div id="listaAtividades" class="lista-atividades"></div>
+    </section>
+
+    <!-- RELATÓRIO -->
+    <section class="bloco relatorio">
+      <div class="cabecalho-bloco">
+        <div>
+          <span class="etiqueta">ANÁLISE DE DESEMPENHO</span>
+          <h2>Relatório mensal</h2>
+          <p>Veja o que você realizou e o que valeu a pena.</p>
+        </div>
+      </div>
+
+      <div class="seletor-relatorio">
+        <div class="campo">
+          <label for="mesRelatorio">Mês</label>
+          <select id="mesRelatorio"></select>
+        </div>
+        <div class="campo">
+          <label for="anoRelatorio">Ano</label>
+          <select id="anoRelatorio"></select>
+        </div>
+      </div>
+
+      <div class="resumo-relatorio">
+        <div><span>Atividades</span><strong id="relTotal">0</strong></div>
+        <div><span>Concluídas</span><strong id="relFeitas">0</strong></div>
+        <div><span>Pendentes</span><strong id="relPendentes">0</strong></div>
+        <div><span>Gastos previstos</span><strong id="relCustos">R$ 0,00</strong></div>
+        <div><span>Benefícios previstos</span><strong id="relBeneficios">R$ 0,00</strong></div>
+        <div><span>Saldo estimado</span><strong id="relSaldo">R$ 0,00</strong></div>
+      </div>
+
+      <div class="analise">
+        <h3>Compensa fazer?</h3>
+        <p id="analiseMensal">
+          Cadastre atividades para gerar sua análise mensal.
+        </p>
+        <small>
+          A avaliação financeira é uma estimativa baseada nos valores que
+          você informar, não uma garantia de lucro.
+        </small>
+      </div>
+
+      <div class="botoes-relatorio">
+        <button id="gerarRelatorio" class="botao principal" type="button">
+          Atualizar relatório
+        </button>
+        <button id="enviarWhatsApp" class="botao whatsapp" type="button">
+          Enviar pelo WhatsApp
+        </button>
+        <button id="enviarEmail" class="botao secundario" type="button">
+          Preparar e-mail
+        </button>
+        <button id="baixarRelatorio" class="botao secundario" type="button">
+          Baixar relatório .txt
+        </button>
+      </div>
+    </section>
+
+    <footer>
+      <strong>AGENDA PRO</strong>
+      <p>Organização, produtividade e resultados.</p>
+      <button id="voltarTopo" class="botao secundario" type="button">
+        Voltar ao topo ↑
+      </button>
+    </footer>
+  </main>
+
+  <script src="agenda.js"></script>
+</body>
+</html>
+
